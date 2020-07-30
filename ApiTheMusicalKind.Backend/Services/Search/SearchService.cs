@@ -2,10 +2,11 @@
 using System.Net.Http;
 using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
+using WebGrease.Css.Extensions;
 
 namespace ApiTheMusicalKind.Backend.Services.Search
 {
-    public class SearchService : ISearchService
+    public class SearchService : BaseService, ISearchService
     {
         private readonly IConfiguration _config;
 
@@ -15,10 +16,10 @@ namespace ApiTheMusicalKind.Backend.Services.Search
         }
 
         public Models.Search Get(string resourceUrl)
-        { 
+        {
             var baseUrl = _config["ShazamApi:BaseUrl"];
-            var host = _config["ShazamApi:Host"]; 
-            var key = _config["ShazamApi:Key"]; 
+            var host = _config["ShazamApi:Host"];
+            var key = _config["ShazamApi:Key"];
 
             var baseAddress = new Uri(baseUrl);
 
@@ -31,6 +32,8 @@ namespace ApiTheMusicalKind.Backend.Services.Search
 
             var responseData = response.Result.Content.ReadAsStringAsync();
             var result = JsonConvert.DeserializeObject<Models.Search>(responseData.Result);
+
+            result.Tracks.Hits.ForEach(x => x.Track.LyricWordCount = Count($"{x.Track.Subtitle}/{x.Track.Title}"));
 
             return result;
         }

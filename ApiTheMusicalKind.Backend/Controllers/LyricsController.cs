@@ -1,5 +1,4 @@
 ﻿using System.Net;
-using ApiTheMusicalKind.Backend.Services;
 using ApiTheMusicalKind.Backend.Services.Lyric;
 using Microsoft.AspNetCore.Mvc;
 
@@ -34,7 +33,7 @@ namespace ApiTheMusicalKind.Backend.Controllers
         {
             var url = $"{artist}/{title}";
 
-            return Ok(_query.Count(url));
+            return Ok(_query.GetCount(url));
         }
     }
 }

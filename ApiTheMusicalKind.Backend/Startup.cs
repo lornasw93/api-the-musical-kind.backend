@@ -19,11 +19,21 @@ namespace ApiTheMusicalKind.Backend
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddCors(options => options.AddPolicy("Default", policy => policy
-                .WithOrigins(Configuration.GetSection("AllowedCorsOrigins").Get<ICollection<string>>().ToArray())
-                .AllowAnyHeader()
-                .AllowAnyMethod()
-                .AllowCredentials()));
+            services.AddCors(options =>
+            {
+                options.AddPolicy("Default",
+                    builder =>
+                    {
+                        // Not a permanent solution, but just trying to isolate the problem
+                        builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader();
+                    });
+            });
+
+            ////services.AddCors(options => options.AddPolicy("Default", policy => policy
+            ////    .WithOrigins(Configuration.GetSection("AllowedCorsOrigins").Get<ICollection<string>>().ToArray())
+            ////    .AllowAnyHeader()
+            ////    .AllowAnyMethod()
+            ////  .AllowCredentials()));
 
             services.AddPersistence(Configuration);
             services.AddControllers().AddNewtonsoftJson(options =>
@@ -45,24 +55,41 @@ namespace ApiTheMusicalKind.Backend
         {
             if (env.IsDevelopment())
                 app.UseDeveloperExceptionPage();
-            else
-            {
-                app.UseExceptionHandler("/Home/Error");
-                app.UseHsts();
-            }
+            //else
+            //{
+            //    app.UseExceptionHandler("/Home/Error");
+            //    app.UseHsts();
+            //}
+
 
             app.UseHttpsRedirection();
-            app.UseStaticFiles();
-            app.UseRouting();
-            app.UseAuthentication();
+
+
+
+            app.UseRouting();  // first
+            // Use the CORS policy
+            app.UseCors("Default"); // second
+
+            app.UseAuthorization();
+
+            app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapControllers();
+            });
+
+            //app.UseHttpsRedirection();
+            //app.UseStaticFiles();
+            //app.UseRouting();
+            //app.UseCors("Default");
+            //app.UseAuthentication();
 
             app.UseSwagger();
             app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "v1"));
 
-            app.UseEndpoints(endpoints =>
-            {
-                endpoints.MapControllerRoute(name: "default", pattern: "{controller=Home}/{action=Index}/{id?}");
-            });
+            //app.UseEndpoints(endpoints =>
+            //{
+            //    endpoints.MapControllerRoute(name: "default", pattern: "{controller=Home}/{action=Index}/{id?}");
+            //});
         }
     }
 }

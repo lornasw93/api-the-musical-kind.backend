@@ -15,23 +15,23 @@ namespace ApiTheMusicalKind.Backend.Models
     public class Artist
     {
         [JsonProperty("hits")]
-        public IEnumerable<ArtistHits> Hits { get; set; }
+        public IEnumerable<object> Hits { get; set; }
     }
 
-    public class ArtistHits
-    {
-        [JsonProperty("avatar")]
-        public string Avatar { get; set; }
+    //public class ArtistHits
+    //{
+    //    [JsonProperty("avatar")]
+    //    public string Avatar { get; set; }
 
-        [JsonProperty("id")]
-        public string Id { get; set; }
+    //    [JsonProperty("id")]
+    //    public string Id { get; set; }
 
-        [JsonProperty("name")]
-        public string Name { get; set; }
+    //    [JsonProperty("name")]
+    //    public string Name { get; set; }
 
-        [JsonProperty("verified")]
-        public bool Verified { get; set; } 
-    }
+    //    [JsonProperty("verified")]
+    //    public bool Verified { get; set; } 
+    //}
 
     public class Track
     {
@@ -76,6 +76,9 @@ namespace ApiTheMusicalKind.Backend.Models
 
         [JsonProperty("url")]
         public string Url { get; set; }
+
+        [JsonProperty("lyricWordCount")]
+        public int LyricWordCount { get; set; }
     }
 
     public class Share
@@ -151,7 +154,7 @@ namespace ApiTheMusicalKind.Backend.Models
 
         [JsonProperty("id")]
         public string Id { get; set; }
-         
+
         [JsonProperty("uri")]
         public string Uri { get; set; }
     }
@@ -179,7 +182,7 @@ namespace ApiTheMusicalKind.Backend.Models
         [JsonProperty("colouroverflowimage")]
         public bool ColourOverflowImage { get; set; }
     }
- 
+
     public class BeaconData
     {
         [JsonProperty("type")]

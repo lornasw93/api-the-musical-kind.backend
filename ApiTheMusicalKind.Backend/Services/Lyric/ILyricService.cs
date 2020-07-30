@@ -2,7 +2,9 @@
 {
     public interface ILyricService
     {
+        //string Get(string resourceUrl);
+        //int Count(string resourceUrl);
         string Get(string resourceUrl);
-        int Count(string resourceUrl);
+        int GetCount(string resourceUrl);
     }
 }
