@@ -26,32 +26,11 @@ namespace ApiTheMusicalKind.Backend
 
         public void ConfigureServices(IServiceCollection services)
         {
-            //var issuer = Configuration.GetValue<string>("JwtBearer:Issuer");
-            //var audience = Configuration.GetValue<string>("JwtBearer:Audience");
-            //var secretKey = Configuration.GetValue<string>("JwtBearer:SecretKey");
-
             services.AddPersistence(Configuration);
             services.AddControllers().AddNewtonsoftJson(options =>
                 options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
             );
-
-            var baseUrl = Configuration.GetValue<string>("LyricsApi:BaseUrl");
-
-            services.AddHttpClient("lyricsHttpClient", c =>
-            {
-                c.BaseAddress = new Uri(baseUrl);
-                //c.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-            });
-
-            //services.AddAuthentication("Bearer")
-            //    .AddIdentityServerAuthentication("Bearer", options =>
-            //    {
-            //        options.ApiSecret = secretKey;
-            //        options.ClaimsIssuer = "https://localhost:44331";
-            //        options.ApiName = "Airelogic Tech Test";
-            //        options.Authority = "https://localhost:44331";
-            //    });
-
+             
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo
@@ -77,7 +56,6 @@ namespace ApiTheMusicalKind.Backend
             app.UseStaticFiles();
             app.UseRouting();
             app.UseAuthentication();
-           // app.UseAuthorization();
 
             app.UseSwagger();
             app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "v1"));
