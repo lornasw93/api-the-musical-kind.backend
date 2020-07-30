@@ -1,4 +1,8 @@
-﻿using System.Net;
+﻿using System.Collections.Generic;
+using System.Linq;
+using System.Net;
+using System.Text.RegularExpressions;
+using ApiTheMusicalKind.Backend.Models;
 using ApiTheMusicalKind.Backend.Services.Lyric;
 using Microsoft.AspNetCore.Mvc;
 
@@ -19,11 +23,11 @@ namespace ApiTheMusicalKind.Backend.Controllers
         [HttpGet]
         [ProducesResponseType((int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.NotFound)]
-        public ActionResult<string> Get(string artist, string title)
+        public ActionResult<CustomLyric> Get(string artist, string title)
         {
             var url = $"{artist}/{title}";
 
-            return Ok(_query.Get(url));
+            return Ok(_query.GetCustom(url));
         }
 
         [HttpGet("count")]
@@ -34,6 +38,6 @@ namespace ApiTheMusicalKind.Backend.Controllers
             var url = $"{artist}/{title}";
 
             return Ok(_query.GetCount(url));
-        }
+        } 
     }
 }
