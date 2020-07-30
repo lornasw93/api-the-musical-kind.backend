@@ -5,7 +5,7 @@ using Newtonsoft.Json;
 namespace ApiTheMusicalKind.Backend.Services
 {
     public abstract class BaseService
-    {
+    { 
         public virtual int Count(string resourceUrl)
         {
             var s = Item(resourceUrl).Split(' ');
