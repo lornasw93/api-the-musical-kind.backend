@@ -1,25 +1,26 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
+using System.Threading.Tasks;
 using ApiTheMusicalKind.Backend.Models;
 
 namespace ApiTheMusicalKind.Backend.Services.Lyric
 {
     public class LyricService : BaseService, ILyricService
     {
-        public string Get(string resourceUrl)
+        public Task<string> Get(string resourceUrl)
         {
             return Item(resourceUrl);
         }
 
-        public int GetCount(string resourceUrl)
+        public Task<int> GetCount(string resourceUrl)
         {
             return Count(resourceUrl);
         }
 
-        public CustomLyric GetCustom(string resourceUrl)
+        public async Task<CustomLyric> GetCustom(string resourceUrl)
         {
-            var lyric = Item(resourceUrl);
+            var lyric = await Item(resourceUrl);
 
             return new CustomLyric()
             {

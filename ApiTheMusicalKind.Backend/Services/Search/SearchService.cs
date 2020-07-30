@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Net.Http;
+using System.Threading.Tasks;
 using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
 
@@ -14,7 +15,7 @@ namespace ApiTheMusicalKind.Backend.Services.Search
             _config = config;
         }
 
-        public Models.Search Get(string resourceUrl)
+        public async Task<Models.Search> Get(string resourceUrl)
         {
             const string baseUrl = "https://shazam.p.rapidapi.com/";
             const string host = "shazam.p.rapidapi.com";
@@ -29,8 +30,8 @@ namespace ApiTheMusicalKind.Backend.Services.Search
 
             using var response = httpClient.GetAsync("search?locale=en-GB&offset=0&limit=5&term=" + resourceUrl);
 
-            var responseData = response.Result.Content.ReadAsStringAsync();
-            var result = JsonConvert.DeserializeObject<Models.Search>(responseData.Result);
+            var responseData = await response.Result.Content.ReadAsStringAsync();
+            var result = JsonConvert.DeserializeObject<Models.Search>(responseData);
 
             foreach (var item in result.Tracks.Hits)
             {
@@ -39,11 +40,9 @@ namespace ApiTheMusicalKind.Backend.Services.Search
 
                 //TODO done quick fix for an issue where if the song name returned has a / the site bugs out, so for now encoding the /
                 var newTitle = title.Contains("/") ? title.Replace("/", "%2F") : title;
-                 
-                item.Track.LyricWordCount = Count($"{item.Track.Subtitle}/{newTitle}");
+
+                item.Track.LyricWordCount = Count($"{artist}/{newTitle}").Result;
             }
-             
-            //result.Tracks.Hits.ForEach(x => x.Track.LyricWordCount = Count($"{x.Track.Subtitle}/{x.Track.Title}"));
 
             return result;
         }
