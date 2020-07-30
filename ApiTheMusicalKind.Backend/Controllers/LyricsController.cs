@@ -1,7 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Text.RegularExpressions;
+﻿using System.Net;
 using ApiTheMusicalKind.Backend.Models;
 using ApiTheMusicalKind.Backend.Services.Lyric;
 using Microsoft.AspNetCore.Mvc;
