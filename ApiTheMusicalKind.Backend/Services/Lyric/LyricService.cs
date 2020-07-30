@@ -3,7 +3,7 @@ using System.Net.Http;
 using ApiTheMusicalKind.Backend.Models;
 using Newtonsoft.Json;
 
-namespace ApiTheMusicalKind.Backend.Services
+namespace ApiTheMusicalKind.Backend.Services.Lyric
 {
     public class LyricService : ILyricService
     {
@@ -27,7 +27,7 @@ namespace ApiTheMusicalKind.Backend.Services
 
             var responseData = response.Result.Content.ReadAsStringAsync();
 
-            var result = JsonConvert.DeserializeObject<Lyric>(responseData.Result);
+            var result = JsonConvert.DeserializeObject<Models.Lyric>(responseData.Result);
 
             return result.Lyrics;
         }

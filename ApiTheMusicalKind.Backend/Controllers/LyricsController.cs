@@ -1,5 +1,6 @@
 ﻿using System.Net;
 using ApiTheMusicalKind.Backend.Services;
+using ApiTheMusicalKind.Backend.Services.Lyric;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ApiTheMusicalKind.Backend.Controllers

@@ -1,4 +1,4 @@
-﻿namespace ApiTheMusicalKind.Backend.Services
+﻿namespace ApiTheMusicalKind.Backend.Services.Lyric
 {
     public interface ILyricService
     {

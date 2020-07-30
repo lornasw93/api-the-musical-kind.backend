@@ -1,4 +1,6 @@
 ﻿using ApiTheMusicalKind.Backend.Services;
+using ApiTheMusicalKind.Backend.Services.Lyric;
+using ApiTheMusicalKind.Backend.Services.Search;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -22,6 +24,7 @@ namespace ApiTheMusicalKind.Backend
         private static void AddServices(IServiceCollection services)
         {
             services.AddSingleton<ILyricService, LyricService>();
+            services.AddSingleton<ISearchService, SearchService>();
         }
     }
 }
