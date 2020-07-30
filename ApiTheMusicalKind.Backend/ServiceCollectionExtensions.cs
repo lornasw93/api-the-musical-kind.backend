@@ -21,7 +21,7 @@ namespace ApiTheMusicalKind.Backend
 
         private static void AddServices(IServiceCollection services)
         {
-            services.AddSingleton<IBaseService, BaseService>();
+            services.AddSingleton<ILyricService, LyricService>();
         }
     }
 }

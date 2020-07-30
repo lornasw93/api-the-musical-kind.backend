@@ -1,5 +1,4 @@
 ﻿using System.Net;
-using ApiTheMusicalKind.Backend.Models;
 using ApiTheMusicalKind.Backend.Services;
 using Microsoft.AspNetCore.Mvc;
 
@@ -8,12 +7,11 @@ namespace ApiTheMusicalKind.Backend.Controllers
     [Produces("application/json")]
     [Route("api/[controller]")]
     [ApiController]
-    //[Authorize]
     public class LyricsController : ControllerBase
     {
-        private readonly IBaseService _query;
+        private readonly ILyricService _query;
 
-        public LyricsController(IBaseService query)
+        public LyricsController(ILyricService query)
         {
             _query = query;
         }
@@ -25,7 +23,7 @@ namespace ApiTheMusicalKind.Backend.Controllers
         {
             var url = $"{artist}/{title}";
 
-            return Ok(_query.Item(url));
+            return Ok(_query.Get(url));
         }
     }
 }
