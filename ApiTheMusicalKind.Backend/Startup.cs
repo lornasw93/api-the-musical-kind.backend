@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+using System.Linq;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -17,6 +19,12 @@ namespace ApiTheMusicalKind.Backend
 
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddCors(options => options.AddPolicy("Default", policy => policy
+                .WithOrigins(Configuration.GetSection("AllowedCorsOrigins").Get<ICollection<string>>().ToArray())
+                .AllowAnyHeader()
+                .AllowAnyMethod()
+                .AllowCredentials()));
+
             services.AddPersistence(Configuration);
             services.AddControllers().AddNewtonsoftJson(options =>
                 options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
