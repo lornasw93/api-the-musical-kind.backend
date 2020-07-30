@@ -25,5 +25,15 @@ namespace ApiTheMusicalKind.Backend.Controllers
 
             return Ok(_query.Get(url));
         }
+
+        [HttpGet("count")]
+        [ProducesResponseType((int)HttpStatusCode.OK)]
+        [ProducesResponseType((int)HttpStatusCode.NotFound)]
+        public ActionResult<int> Count(string artist, string title)
+        {
+            var url = $"{artist}/{title}";
+
+            return Ok(_query.Count(url));
+        }
     }
 }

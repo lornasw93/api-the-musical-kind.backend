@@ -9,6 +9,17 @@ namespace ApiTheMusicalKind.Backend.Services
     {
         public string Get(string resourceUrl)
         {
+            return Item(resourceUrl);
+        }
+
+        public int Count(string resourceUrl)
+        {
+            var s = Item(resourceUrl).Split(' ');
+            return s.Length;
+        }
+
+        private static string Item(string resourceUrl)
+        {
             var baseAddress = new Uri("https://api.lyrics.ovh/v1/");
 
             using var httpClient = new HttpClient { BaseAddress = baseAddress };
