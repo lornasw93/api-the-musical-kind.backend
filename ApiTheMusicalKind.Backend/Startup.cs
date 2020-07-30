@@ -1,5 +1,3 @@
-using System.Collections.Generic;
-using System.Linq;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -24,8 +22,10 @@ namespace ApiTheMusicalKind.Backend
                 options.AddPolicy("Default",
                     builder =>
                     {
-                        // Not a permanent solution, but just trying to isolate the problem
-                        builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader();
+                        // Not a permanent solution
+                        builder.AllowAnyOrigin()
+                            .AllowAnyMethod()
+                            .AllowAnyHeader();
                     });
             });
 
@@ -36,10 +36,12 @@ namespace ApiTheMusicalKind.Backend
             ////  .AllowCredentials()));
 
             services.AddPersistence(Configuration);
-            services.AddControllers().AddNewtonsoftJson(options =>
+
+            services.AddControllersWithViews()
+                .AddNewtonsoftJson(options =>
                 options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
             );
-             
+
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo
@@ -61,35 +63,22 @@ namespace ApiTheMusicalKind.Backend
             //    app.UseHsts();
             //}
 
-
             app.UseHttpsRedirection();
-
-
-
-            app.UseRouting();  // first
-            // Use the CORS policy
-            app.UseCors("Default"); // second
-
+            app.UseRouting();
+            app.UseCors("Default");
             app.UseAuthorization();
-
-            app.UseEndpoints(endpoints =>
-            {
-                endpoints.MapControllers();
-            });
-
-            //app.UseHttpsRedirection();
-            //app.UseStaticFiles();
-            //app.UseRouting();
-            //app.UseCors("Default");
-            //app.UseAuthentication();
 
             app.UseSwagger();
             app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "v1"));
 
             //app.UseEndpoints(endpoints =>
             //{
-            //    endpoints.MapControllerRoute(name: "default", pattern: "{controller=Home}/{action=Index}/{id?}");
+            //    endpoints.MapControllers();
             //});
+            app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapControllerRoute(name: "default", pattern: "{controller=Home}/{action=Index}/{id?}");
+            });
         }
     }
 }
