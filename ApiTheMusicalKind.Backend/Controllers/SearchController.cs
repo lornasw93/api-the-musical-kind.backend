@@ -22,7 +22,7 @@ namespace ApiTheMusicalKind.Backend.Controllers
         [ProducesResponseType((int)HttpStatusCode.NotFound)]
         public ActionResult<Search> Get(string searchTerm)
         {
-            return Ok(_query.Get(searchTerm));
+            return Ok(_query.GetSearch(searchTerm));
         }
     }
 }

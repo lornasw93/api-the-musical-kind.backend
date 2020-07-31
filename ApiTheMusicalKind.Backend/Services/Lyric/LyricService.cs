@@ -8,19 +8,19 @@ namespace ApiTheMusicalKind.Backend.Services.Lyric
 {
     public class LyricService : BaseService, ILyricService
     {
-        public Task<string> Get(string resourceUrl)
+        public string Get(string resourceUrl)
         {
             return Item(resourceUrl);
         }
 
-        public Task<int> GetCount(string resourceUrl)
+        public int GetCount(string resourceUrl)
         {
             return Count(resourceUrl);
         }
 
-        public async Task<CustomLyric> GetCustom(string resourceUrl)
+        public CustomLyric GetCustom(string resourceUrl)
         {
-            var lyric = await Item(resourceUrl);
+            var lyric = Item(resourceUrl);
 
             return new CustomLyric()
             {
@@ -37,19 +37,5 @@ namespace ApiTheMusicalKind.Backend.Services.Lyric
                 .OrderByDescending(g => g.Count())
                 .Take(5);
         }
-
-        //private static string Item(string resourceUrl)
-        //{
-        //    var baseAddress = new Uri("https://api.lyrics.ovh/v1/");
-
-        //    using var httpClient = new HttpClient { BaseAddress = baseAddress };
-        //    using var response = httpClient.GetAsync(resourceUrl);
-
-        //    var responseData = response.Result.Content.ReadAsStringAsync();
-
-        //    var result = JsonConvert.DeserializeObject<Models.Lyric>(responseData.Result);
-
-        //    return result.Lyrics;
-        //}
     }
 }
