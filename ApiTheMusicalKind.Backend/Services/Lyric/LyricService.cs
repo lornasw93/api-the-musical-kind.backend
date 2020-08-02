@@ -11,17 +11,20 @@ namespace ApiTheMusicalKind.Backend.Services.Lyric
 {
     public class LyricService : ILyricService
     {
-        public async Task<LyricsRootObject> GetLyrics(string resourceUrl)
+        public async Task<object> GetLyrics(string resourceUrl)
         {
             var baseAddress = new Uri(BaseUrlConstant.LyricsOvh);
 
             using var httpClient = new HttpClient { BaseAddress = baseAddress };
             using var response = httpClient.GetAsync(resourceUrl);
-
+             
             var responseData = await response.Result.Content.ReadAsStringAsync();
+             
+            //TODO better
+            if (responseData.Contains("No lyrics found"))
+                return null;
 
             var result = JsonConvert.DeserializeObject<Models.Lyric>(responseData);
-
             var count = result.Lyrics.Split(' ').Length;
 
             return new LyricsRootObject
@@ -29,10 +32,10 @@ namespace ApiTheMusicalKind.Backend.Services.Lyric
                 Lyrics = result.Lyrics,
                 WordCount = count,
                 Common = GetCommon(result.Lyrics)
-            };
+            }; 
         }
 
-        private static IEnumerable<IGrouping<string, string>> GetCommon(string lyric)
+        private IEnumerable<IGrouping<string, string>> GetCommon(string lyric)
         {
             return Regex.Split(lyric.ToLower(), @"\W+")
                 .Where(s => s.Length > 3)

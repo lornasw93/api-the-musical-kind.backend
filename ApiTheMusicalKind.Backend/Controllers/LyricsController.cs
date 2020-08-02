@@ -19,11 +19,15 @@ namespace ApiTheMusicalKind.Backend.Controllers
         [HttpGet]
         [ProducesResponseType((int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.NotFound)]
-        public ActionResult<object> Get(string artist, string title)
+        public IActionResult Get(string artist, string title)
         {
             var url = $"{artist}/{title}";
 
-            return Ok(_service.GetLyrics(url));
+            var response = _service.GetLyrics(url);
+            if (response.Result == null)
+                return NotFound();
+
+            return Ok(response);
         }
     }
 }

@@ -33,6 +33,13 @@ namespace ApiTheMusicalKind.Backend.Services.Search
             using var response = httpClient.GetAsync("search?q=" + query);
 
             var responseData = await response.Result.Content.ReadAsStringAsync();
+
+            var result1 = JsonConvert.DeserializeObject<InitialData>(responseData);
+
+            //TODO better
+            if (result1.data.Length == 0)
+                return null;
+
             var result = JsonConvert.DeserializeObject<Deezer>(responseData);
 
             return result;

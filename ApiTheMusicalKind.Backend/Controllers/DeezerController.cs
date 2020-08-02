@@ -20,9 +20,13 @@ namespace ApiTheMusicalKind.Backend.Controllers
         [HttpGet]
         [ProducesResponseType((int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.NotFound)]
-        public ActionResult<Deezer> Get(string searchTerm)
+        public IActionResult Get(string searchTerm)
         {
-            return Ok(_service.GetSearchResults(searchTerm));
+            var response = _service.GetSearchResults(searchTerm);
+            if (response.Result == null)
+                return NotFound();
+
+            return Ok(response);
         }
     }
 }

@@ -125,12 +125,9 @@ namespace ApiTheMusicalKind.Backend.Models
         [JsonProperty("type")]
         public string Type { get; set; }
     }
-
-
-
-
-
-    //public int AverageLyricCount { get; set; }
-    //public int MostLyricCount { get; set; }
-    //public int LeastLyricCount { get; set; }
+     
+    public class InitialData
+    {
+        public object[] data { get; set; }
+    } 
 }
