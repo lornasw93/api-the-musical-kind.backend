@@ -30,7 +30,7 @@ namespace ApiTheMusicalKind.Backend
             });
 
             ////services.AddCors(options => options.AddPolicy("Default", policy => policy
-            ////    .WithOrigins(Configuration.GetSection("AllowedCorsOrigins").GetSearch<ICollection<string>>().ToArray())
+            ////    .WithOrigins(Configuration.GetSection("AllowedCorsOrigins").GetSearchResults<ICollection<string>>().ToArray())
             ////    .AllowAnyHeader()
             ////    .AllowAnyMethod()
             ////  .AllowCredentials()));

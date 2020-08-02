@@ -10,9 +10,10 @@ namespace ApiTheMusicalKind.Backend.Models
         public string Lyrics { get; set; }
     }
 
-    public class CustomLyric
+    public class LyricsRootObject
     {
         public string Lyrics { get; set; }
+        public int WordCount { get; set; }
         public IEnumerable<IGrouping<string, string>> Common { get; set; }
     }
 }

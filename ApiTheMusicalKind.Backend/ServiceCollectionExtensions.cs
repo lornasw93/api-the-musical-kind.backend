@@ -10,7 +10,7 @@ namespace ApiTheMusicalKind.Backend
     {
         public static IServiceCollection AddPersistence(this IServiceCollection services, IConfiguration configuration)
         {
-            AddQueries(services);
+            //AddQueries(services);
             AddServices(services);
 
             return services;
@@ -23,8 +23,9 @@ namespace ApiTheMusicalKind.Backend
 
         private static void AddServices(IServiceCollection services)
         {
+            services.AddSingleton<IDeezerService, DeezerService>();
             services.AddSingleton<ILyricService, LyricService>();
-            services.AddSingleton<ISearchService, SearchService>();
+
         }
     }
 }

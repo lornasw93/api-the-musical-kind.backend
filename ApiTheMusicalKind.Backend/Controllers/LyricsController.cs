@@ -1,5 +1,4 @@
 ﻿using System.Net;
-using ApiTheMusicalKind.Backend.Models;
 using ApiTheMusicalKind.Backend.Services.Lyric;
 using Microsoft.AspNetCore.Mvc;
 
@@ -10,31 +9,21 @@ namespace ApiTheMusicalKind.Backend.Controllers
     [ApiController]
     public class LyricsController : ControllerBase
     {
-        private readonly ILyricService _query;
+        private readonly ILyricService _service;
 
-        public LyricsController(ILyricService query)
+        public LyricsController(ILyricService service)
         {
-            _query = query;
+            _service = service;
         }
 
         [HttpGet]
         [ProducesResponseType((int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.NotFound)]
-        public ActionResult<CustomLyric> Get(string artist, string title)
+        public ActionResult<object> Get(string artist, string title)
         {
             var url = $"{artist}/{title}";
 
-            return Ok(_query.GetCustom(url));
+            return Ok(_service.GetLyrics(url));
         }
-
-        [HttpGet("count")]
-        [ProducesResponseType((int)HttpStatusCode.OK)]
-        [ProducesResponseType((int)HttpStatusCode.NotFound)]
-        public ActionResult<int> Count(string artist, string title)
-        {
-            var url = $"{artist}/{title}";
-
-            return Ok(_query.GetCount(url));
-        } 
     }
 }

@@ -1,31 +1,34 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using ApiTheMusicalKind.Backend.Models;
+using Newtonsoft.Json;
 
 namespace ApiTheMusicalKind.Backend.Services.Lyric
 {
-    public class LyricService : BaseService, ILyricService
+    public class LyricService : ILyricService
     {
-        public string Get(string resourceUrl)
+        public async Task<LyricsRootObject> GetLyrics(string resourceUrl)
         {
-            return Item(resourceUrl);
-        }
+            var baseAddress = new Uri(BaseUrlConstant.LyricsOvh);
 
-        public int GetCount(string resourceUrl)
-        {
-            return Count(resourceUrl);
-        }
+            using var httpClient = new HttpClient { BaseAddress = baseAddress };
+            using var response = httpClient.GetAsync(resourceUrl);
 
-        public CustomLyric GetCustom(string resourceUrl)
-        {
-            var lyric = Item(resourceUrl);
+            var responseData = await response.Result.Content.ReadAsStringAsync();
 
-            return new CustomLyric()
+            var result = JsonConvert.DeserializeObject<Models.Lyric>(responseData);
+
+            var count = result.Lyrics.Split(' ').Length;
+
+            return new LyricsRootObject
             {
-                Lyrics = lyric,
-                Common = GetCommon(lyric)
+                Lyrics = result.Lyrics,
+                WordCount = count,
+                Common = GetCommon(result.Lyrics)
             };
         }
 

@@ -8,21 +8,21 @@ namespace ApiTheMusicalKind.Backend.Controllers
     [Produces("application/json")]
     [Route("api/[controller]")]
     [ApiController]
-    public class SearchController : ControllerBase
+    public class DeezerController : ControllerBase
     {
-        private readonly ISearchService _query;
+        private readonly IDeezerService _service;
 
-        public SearchController(ISearchService query)
+        public DeezerController(IDeezerService service)
         {
-            _query = query;
+            _service = service;
         }
 
         [HttpGet]
         [ProducesResponseType((int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.NotFound)]
-        public ActionResult<Search> Get(string searchTerm)
+        public ActionResult<Deezer> Get(string searchTerm)
         {
-            return Ok(_query.GetSearch(searchTerm));
+            return Ok(_service.GetSearchResults(searchTerm));
         }
     }
 }
